@@ -1,0 +1,12 @@
+appId: com.sornchaithedev.janpenshop
+productName: Janpenshop POS
+copyright: Copyright © 2023 Sornchai Somsakul
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
