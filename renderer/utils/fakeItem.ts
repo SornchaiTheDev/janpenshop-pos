@@ -1,9 +1,9 @@
 interface Data {
   order: number;
   barcode: string;
-  item_name: string;
-  item_tag: string;
-  item_amount: number;
+  name: string;
+  tag: string;
+  amount: number;
 }
 
 export const fakeData = (amount: number = 0) => {
@@ -19,9 +19,9 @@ export const fakeData = (amount: number = 0) => {
     cosmetics.push({
       order: i,
       barcode: barcode,
-      item_name: name,
-      item_tag: tag,
-      item_amount,
+      name: name,
+      tag: tag,
+      amount,
     });
   }
   return cosmetics;

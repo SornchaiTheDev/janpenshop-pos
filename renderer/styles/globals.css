@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @font-face {
   font-family: Sarabun;
   src: url(/fonts/Sarabun/Sarabun-Thin.ttf);
@@ -108,4 +116,13 @@
 
 html {
   font-family: Sarabun;
+}
+
+th {
+  font-weight: 200;
+}
+
+td {
+  font-weight: 200;
+  padding: 0.7rem;
 }
