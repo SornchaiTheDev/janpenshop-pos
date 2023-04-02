@@ -37,7 +37,7 @@ function Input({
         value={value}
         onChange={onInputChange}
         className={clsx(
-          'w-full p-2 mt-2 border rounded-md outline-none placeholder:py-2 focus:ring-2 ring-offset-1 ring-zinc-400'
+          'w-full p-2 mt-2 border rounded-md outline-none bg-lime-50 placeholder:py-2 focus:ring-2 ring-offset-1 ring-zinc-400'
         )}
       />
     </div>

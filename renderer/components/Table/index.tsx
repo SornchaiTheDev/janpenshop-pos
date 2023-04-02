@@ -37,13 +37,13 @@ function Table({ title, columns, data, pageSize }: Props) {
   );
 
   return (
-    <div className="h-full bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-between p-2 border-b border-lime-100">
+    <div className="h-full border rounded-lg shadow-lg bg-lime-100 border-lime-500">
+      <div className="flex items-center justify-between p-2 border-b border-lime-500">
         <div>
           {title != null && <h4 className="text-xl">{title}</h4>}
-          <button className="flex items-center gap-2 p-2 mt-2 font-medium rounded-md bg-lime-300 text-lime-700">
+          {/* <button className="flex items-center gap-2 p-2 mt-2 font-medium rounded-md bg-lime-300 text-lime-700">
             <BsPlusLg /> เพิ่มสินค้า
-          </button>
+          </button> */}
         </div>
         <Pagination
           currentPage={pageIndex}
@@ -82,7 +82,7 @@ function Table({ title, columns, data, pageSize }: Props) {
             prepareRow(row);
             return (
               <tr
-                className="text-center border-b border-neutral-100"
+                className="text-center"
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {

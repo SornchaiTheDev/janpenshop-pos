@@ -101,7 +101,7 @@ function TagInput({
           <button
             onClick={() => setIsAddClicked(true)}
             className={clsx(
-              'p-1 rounded-sm flex justify-center items-center bg-neutral-300 hover:bg-neutral-400'
+              'p-1 rounded-sm flex justify-center items-center bg-lime-300 hover:bg-lime-400'
             )}
           >
             <BsPlus size="1.25rem" />
