@@ -1,28 +1,28 @@
-import { FormEvent, useState } from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { BiLockAlt } from "react-icons/bi";
-import Input from "@/components/Input";
-import AsyncButton from "@/components/Buttons/AsyncButton";
+import { FormEvent, useState } from 'react'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { BiLockAlt } from 'react-icons/bi'
+import Input from '@/components/Inputs/Simple'
+import AsyncButton from '@/components/Buttons/AsyncButton'
 
 function Login() {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const router = useRouter();
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [isSubmit, setIsSubmit] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmit(true);
+    e.preventDefault()
+    setIsSubmit(true)
     await new Promise((resolve, reject) =>
       setTimeout(() => {
-        setIsSubmit(false);
-        resolve("success");
+        setIsSubmit(false)
+        resolve('success')
       }, 1000)
-    );
-    router.replace("/dashboard");
-    console.log(username, password);
-  };
+    )
+    router.replace('/dashboard')
+    console.log(username, password)
+  }
   return (
     <>
       <Head>
@@ -62,7 +62,7 @@ function Login() {
         </form>
       </div>
     </>
-  );
+  )
 }
 
-export default Login;
+export default Login

@@ -1,22 +1,48 @@
-import { useMemo } from "react";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Statistic from "@/components/Statistic";
-import { BiHome } from "react-icons/bi";
-import { BsHandbag } from "react-icons/bs";
-import { RiSettings4Line } from "react-icons/ri";
-import { TbDoorExit } from "react-icons/tb";
-import { fakeData } from "@/utils";
-import type { Data } from "@/types/tableData";
-import Table from "@/components/Table";
-import Sidebar from "@/HOC/Sidebar";
+import { useMemo } from 'react'
+import dynamic from 'next/dynamic'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import Statistic from '@/components/Common/Statistic'
+import { BiHome } from 'react-icons/bi'
+import { BsHandbag } from 'react-icons/bs'
+import { RiSettings4Line } from 'react-icons/ri'
+import { TbDoorExit } from 'react-icons/tb'
+import { fakeData } from '@/utils'
+import type { Data } from '@/types/tableData'
+import Table from '@/components/Table'
+import Sidebar from '@/HOC/Sidebar'
+import { Column } from 'react-table'
 
 interface Props {
-  data: Data[];
+  data: Data[]
 }
 
 function Home({ data }: Props) {
+  const columns: Column[] = useMemo(
+    () => [
+      {
+        Header: 'ลำดับ',
+        accessor: 'order', // accessor is the "key" in the data
+      },
+      {
+        Header: 'บาร์โค้ด',
+        accessor: 'barcode',
+      },
+      {
+        Header: 'ชื่อสินค้า',
+        accessor: 'name',
+      },
+      {
+        Header: 'ประเภท',
+        accessor: 'tag',
+      },
+      {
+        Header: 'จำนวนคงเหลือ',
+        accessor: 'amount',
+      },
+    ],
+    []
+  )
   return (
     <Sidebar title="แดชบอร์ด">
       <div className="flex gap-4 mt-10">
@@ -29,19 +55,24 @@ function Home({ data }: Props) {
         <Statistic title="กำไร (วันนี้)" unit="baht" value={32125} />
       </div>
 
-      <Table pageSize={12} data={data} />
+      <Table
+        title="จำนวนสินค้าคงเหลือ"
+        pageSize={12}
+        columns={columns}
+        data={data}
+      />
     </Sidebar>
-  );
+  )
 }
 
-export default Home;
+export default Home
 
 export async function getServerSideProps() {
-  const data = fakeData(10000);
+  const data = fakeData(10000)
 
   return {
     props: {
       data,
     },
-  };
+  }
 }

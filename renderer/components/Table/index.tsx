@@ -7,44 +7,20 @@ import {
   AiOutlineSortDescending,
 } from "react-icons/ai";
 import type { Data } from "@/types/tableData";
+import { BsPlusLg } from "react-icons/bs";
 
 interface Props {
   data: Data[];
   pageSize: number;
+  title?: string;
+  columns: Column[];
 }
 
-function Table({ data, pageSize }: Props) {
-  const columns: Column[] = React.useMemo(
-    () => [
-      {
-        Header: "ลำดับ",
-        accessor: "order", // accessor is the "key" in the data
-      },
-      {
-        Header: "บาร์โค้ด",
-        accessor: "barcode",
-      },
-      {
-        Header: "ชื่อสินค้า",
-        accessor: "name",
-      },
-      {
-        Header: "ประเภท",
-        accessor: "tag",
-      },
-      {
-        Header: "จำนวนคงเหลือ",
-        accessor: "amount",
-      },
-    ],
-    []
-  );
-
+function Table({ title, columns, data, pageSize }: Props) {
   const {
     getTableProps,
     headerGroups,
     getTableBodyProps,
-    rows,
     prepareRow,
     page,
     canPreviousPage,
@@ -62,8 +38,13 @@ function Table({ data, pageSize }: Props) {
 
   return (
     <div className="h-full bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-between p-2 pb-0 border-b">
-        <h4 className="text-xl">จำนวนสินค้าคงเหลือ</h4>
+      <div className="flex items-center justify-between p-2 border-b border-lime-100">
+        <div>
+          {title != null && <h4 className="text-xl">{title}</h4>}
+          <button className="flex items-center gap-2 p-2 mt-2 font-medium rounded-md bg-lime-300 text-lime-700">
+            <BsPlusLg /> เพิ่มสินค้า
+          </button>
+        </div>
         <Pagination
           currentPage={pageIndex}
           pageSize={pageOptions.length}

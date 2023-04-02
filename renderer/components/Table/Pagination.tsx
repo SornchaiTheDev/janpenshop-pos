@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
-import clsx from "clsx";
-import Input from "../Input";
+import { useState, useEffect } from 'react'
+import { BiChevronsLeft, BiChevronsRight } from 'react-icons/bi'
+import clsx from 'clsx'
+import Input from '../Inputs/Simple'
 
 interface Props {
-  canPrevPage: boolean;
-  canNextPage: boolean;
-  currentPage: number;
-  pageSize: number;
-  nextPage: () => void;
-  prevPage: () => void;
-  gotoPage: (updater: number | ((pageIndex: number) => number)) => void;
+  canPrevPage: boolean
+  canNextPage: boolean
+  currentPage: number
+  pageSize: number
+  nextPage: () => void
+  prevPage: () => void
+  gotoPage: (updater: number | ((pageIndex: number) => number)) => void
 }
 function Pagination({
   canNextPage,
@@ -21,29 +21,29 @@ function Pagination({
   pageSize,
   gotoPage,
 }: Props) {
-  const [page, setPage] = useState(currentPage.toString());
-  const [isFocus, setIsFocus] = useState(false);
+  const [page, setPage] = useState(currentPage.toString())
+  const [isFocus, setIsFocus] = useState(false)
 
   useEffect(() => {
-    setPage(currentPage.toString());
-  }, [currentPage]);
+    setPage(currentPage.toString())
+  }, [currentPage])
 
   const setGoToPage = () => {
-    const number = Number(page);
+    const number = Number(page)
     if (number > 0 && number <= pageSize) {
-      gotoPage(number - 1);
+      gotoPage(number - 1)
     }
-    setIsFocus(false);
-  };
+    setIsFocus(false)
+  }
   return (
     <div className="flex items-center gap-2 p-1 text-sm rounded-lg">
       <button
         onClick={prevPage}
         className={clsx(
-          "p-2 rounded-full ",
+          'p-2 rounded-full ',
           canPrevPage
-            ? "text-green-500 hover:bg-neutral-100"
-            : "text-neutral-200 cursor-not-allowed"
+            ? 'text-lime-500 hover:bg-lime-50'
+            : 'text-lime-200 cursor-not-allowed'
         )}
       >
         <BiChevronsLeft size="1.15rem" />
@@ -59,16 +59,16 @@ function Pagination({
       <button
         onClick={nextPage}
         className={clsx(
-          "p-2 rounded-full",
+          'p-2 rounded-full',
           canNextPage
-            ? "text-green-500 hover:bg-neutral-100"
-            : "text-neutral-200 cursor-not-allowed"
+            ? 'text-lime-500 hover:bg-lime-50'
+            : 'text-lime-200 cursor-not-allowed'
         )}
       >
         <BiChevronsRight size="1.15rem" />
       </button>
     </div>
-  );
+  )
 }
 
-export default Pagination;
+export default Pagination
