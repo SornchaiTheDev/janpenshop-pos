@@ -57,7 +57,7 @@ function Sidebar({ children, title }: Props) {
           <div className="flex items-center justify-between">
             <h2 className="text-4xl font-bold text-neutral-700">{title}</h2>
             <button
-              onClick={() => router.replace('/login')}
+              onClick={() => router.replace('/front')}
               className="flex items-center gap-2 text-red-500 hover:text-red-700"
             >
               ออกจากระบบ

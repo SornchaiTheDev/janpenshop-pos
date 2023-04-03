@@ -7,6 +7,7 @@ import { Column } from 'react-table'
 import AddItem from '@/components/AddItem'
 import type { Action } from '@/types/interface/Action'
 import { BsPlusLg } from 'react-icons/bs'
+import { FiTrash2 } from 'react-icons/fi'
 
 interface Props {
   data: Data[]
@@ -20,7 +21,7 @@ function Stock({ data }: Props) {
     () => [
       {
         Header: 'ลำดับ',
-        accessor: 'order', // accessor is the "key" in the data
+        accessor: 'order',
       },
       {
         Header: 'บาร์โค้ด',
@@ -50,17 +51,21 @@ function Stock({ data }: Props) {
         Header: 'จัดการ',
         accessor: 'actions',
         Cell: (props) => (
-          <button onClick={() => handleDelete(props.row.values.barcode)}>
-            ลบ
+          <button
+            className="p-2 text-sm text-red-500 bg-red-200 rounded-lg"
+            onClick={() => handleDelete(props.row.values.barcode)}
+          >
+            <FiTrash2 />
           </button>
         ),
       },
     ],
-    []
+    [_data]
   )
 
   const handleDelete = (barcode: string) => {
     setData(_data.filter((item) => item.barcode !== barcode))
+    // wait for backend
   }
 
   const actions: Action[] = [
@@ -83,6 +88,7 @@ function Stock({ data }: Props) {
 export default Stock
 
 export async function getServerSideProps() {
+  // wait for backend
   const data = fakeData(10)
 
   return {
