@@ -15,17 +15,17 @@ interface Props {
 const navigation = [
   {
     name: 'หน้าหลัก',
-    icon: <BiHome size="1.25rem" />,
+    icon: <BiHome size="100%" />,
     path: '/dashboard',
   },
   {
     name: 'จัดการสินค้า',
-    icon: <BsHandbag size="1.25rem" />,
+    icon: <BsHandbag size="100%" />,
     path: '/stock',
   },
   {
     name: 'ตั้งค่า',
-    icon: <RiSettings4Line size="1.25rem" />,
+    icon: <RiSettings4Line size="100%" />,
     path: '/settings',
   },
 ]
@@ -39,21 +39,21 @@ function Sidebar({ children, title }: Props) {
         <title>จันทร์เพ็ญบิวตี้ช้อป - {title}</title>
       </Head>
       <div className="grid w-full h-screen min-h-screen grid-cols-12 bg-sky-50">
-        <div className="w-full h-full col-span-2 p-4 pt-10 bg-sky-700">
+        <div className="w-full h-full col-span-1 p-2 pt-10 lg:col-span-2 lg:p-4 bg-sky-700">
           {navigation.map(({ name, path, icon }) => (
             <button
               onClick={() => router.replace(path)}
               className={clsx(
-                'flex items-center w-full gap-4 px-4 py-2 mb-4 font-light rounded-md hover:bg-sky-900',
-                currentPath === path ? 'text-sky-500' : 'text-sky-50'
+                'flex justify-center lg:justify-start items-center w-full gap-4 lg:px-2 lg:py-2 py-4 lg:mb-4 font-light rounded-md hover:bg-sky-900',
+                currentPath === path ? 'text-sky-400' : 'text-sky-50'
               )}
             >
-              {icon}
-              <h4 className="text-xl font-bold">{name}</h4>
+              <div className="w-[1.3rem]"> {icon}</div>
+              <h4 className={clsx("hidden text-lg lg:block",currentPath === path ? "font-bold" :"font-normal")}>{name}</h4>
             </button>
           ))}
         </div>
-        <div className="flex flex-col col-span-10 gap-4 pt-10 m-4 rounded-md">
+        <div className="flex flex-col col-span-11 gap-4 pt-2 m-4 rounded-md lg:col-span-10">
           <div className="flex items-center justify-between">
             <h2 className="text-4xl font-bold text-neutral-700">{title}</h2>
             <button

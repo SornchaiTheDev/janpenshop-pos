@@ -48,16 +48,16 @@ function Index({ title, value, unit }: Props) {
   };
 
   return (
-    <div className="flex items-center w-full px-2 py-4 rounded-md shadow bg-sky-100">
+    <div className="flex items-center flex-1 w-full px-2 py-4 rounded-md shadow bg-sky-100">
       <div className="flex-1">
         <h5 className="text-sky-700">{title}</h5>
-        <h2 className="text-5xl font-bold text-sky-800">
+        <h2 className="text-xl font-bold md:text-5xl text-sky-800">
           {convertToThousand(value)}{" "}
           <span className="text-base">{unitText}</span>
         </h2>
       </div>
 
-      <div className="w-[120px]">
+      <div className="w-[70px] md:w-[120px]">
         <Line data={data} options={options} />
       </div>
     </div>

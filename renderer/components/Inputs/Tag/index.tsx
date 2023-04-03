@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import type { HTMLInputTypeAttribute } from 'react'
 import clsx from 'clsx'
 import { IoIosClose } from 'react-icons/io'
@@ -7,10 +7,9 @@ import Badge from './Badge'
 
 interface Props {
   name?: string
-  value: string
   placeholder?: string
   type?: HTMLInputTypeAttribute
-  onChange: (value: string) => void
+  onChange: (tags: string[]) => void
   onFocus?: () => void
   className?: string
 }
@@ -50,12 +49,16 @@ function TagInput({
       setIsAddClicked(false)
     }
   }
-  
+
   const addTag = (tag: string) => {
     if (tags.includes(tag)) return
-    
+
     setTags([...tags, tag])
   }
+
+  useEffect(() => {
+    onChange(tags)
+  }, [tags])
 
   return (
     <div className={className ? className : null}>

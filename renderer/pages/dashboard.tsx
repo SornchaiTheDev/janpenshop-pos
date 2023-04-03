@@ -8,7 +8,7 @@ import { BsHandbag } from 'react-icons/bs'
 import { RiSettings4Line } from 'react-icons/ri'
 import { TbDoorExit } from 'react-icons/tb'
 import { fakeData } from '@/utils'
-import type { Data } from '@/types/tableData'
+import type { Data } from '@/types/interface/Table'
 import Table from '@/components/Table'
 import Sidebar from '@/HOC/Sidebar'
 import { Column } from 'react-table'
@@ -45,7 +45,7 @@ function Home({ data }: Props) {
   )
   return (
     <Sidebar title="แดชบอร์ด">
-      <div className="flex gap-4 mt-10">
+      <div className="flex flex-wrap gap-4">
         <Statistic title="ยอดขาย (วันนี้)" unit="baht" value={123456} />
         <Statistic
           title="จำนวนสินค้าที่ขายได้ (วันนี้)"
