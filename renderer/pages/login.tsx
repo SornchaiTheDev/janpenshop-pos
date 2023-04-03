@@ -29,7 +29,7 @@ function Login() {
         <title>จันทร์เพ็ญบิวตี้ช้อป - เข้าสู่ระบบ</title>
       </Head>
 
-      <div className="flex items-center justify-center w-full h-screen bg-neutral-800">
+      <div className="flex items-center justify-center w-full h-screen bg-sky-800">
         <form
           onSubmit={handleLogin}
           className="relative flex flex-col w-1/3 gap-4 p-10 bg-white border rounded-md shadow-md"

@@ -4,10 +4,6 @@ import Table from '@/components/Table'
 import type { Data } from '@/types/tableData'
 import { fakeData } from '@/utils'
 import { Column } from 'react-table'
-import Input from '@/components/Inputs/Simple'
-import clsx from 'clsx'
-import TagInput from '@/components/Inputs/Tag'
-import { IoIosClose } from 'react-icons/io'
 import AddItem from '@/components/AddItem'
 
 interface Props {
@@ -42,7 +38,7 @@ function Stock({ data }: Props) {
   )
   return (
     <>
-      {true && <AddItem />}
+      {false && <AddItem />}
       <Sidebar title="จัดการสินค้า">
         <Table columns={columns} pageSize={16} data={data} />
       </Sidebar>
