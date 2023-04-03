@@ -41,17 +41,17 @@ function Index({ title, value, unit }: Props) {
       {
         fill: true,
         data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-        borderColor: "#84cc16",
-        backgroundColor: "#d9f99d",
+        borderColor: "##0ea5e9",
+        backgroundColor: "#bae6fd",
       },
     ],
   };
 
   return (
-    <div className="flex items-center w-full px-2 py-4 rounded-md shadow bg-lime-100">
+    <div className="flex items-center w-full px-2 py-4 rounded-md shadow bg-sky-100">
       <div className="flex-1">
-        <h5 className="text-lime-700">{title}</h5>
-        <h2 className="text-5xl font-bold text-lime-800">
+        <h5 className="text-sky-700">{title}</h5>
+        <h2 className="text-5xl font-bold text-sky-800">
           {convertToThousand(value)}{" "}
           <span className="text-base">{unitText}</span>
         </h2>

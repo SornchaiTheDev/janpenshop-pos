@@ -6,7 +6,7 @@ import TagInput from '../Inputs/Tag'
 function AddItem() {
   return (
     <div className="absolute top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center backdrop-blur-sm bg-black/20">
-      <div className="w-1/2 p-4 font-medium rounded-lg bg-lime-100">
+      <div className="w-1/2 p-4 font-medium rounded-lg bg-sky-100">
         <div className="flex items-center justify-between">
           <h4 className="text-2xl text-neutral-800">เพิ่มสินค้า</h4>
           <button onClick={() => {}}>
@@ -40,7 +40,7 @@ function AddItem() {
 
           <TagInput placeholder="ประเภท" value="test" onChange={() => {}} />
 
-          <button className="flex items-center justify-center gap-2 p-2 mt-2 font-medium rounded-md bg-lime-300 hover:bg-lime-400 text-lime-700">
+          <button className="flex items-center justify-center gap-2 p-2 mt-2 font-medium rounded-md bg-sky-300 hover:bg-sky-400 text-sky-700">
             ตกลง
           </button>
         </div>

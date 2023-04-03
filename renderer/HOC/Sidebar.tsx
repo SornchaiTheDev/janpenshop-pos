@@ -38,13 +38,13 @@ function Sidebar({ children, title }: Props) {
       <Head>
         <title>จันทร์เพ็ญบิวตี้ช้อป - {title}</title>
       </Head>
-      <div className="grid w-full h-screen min-h-screen grid-cols-12 bg-lime-50">
-        <div className="w-full h-full col-span-2 p-4 pt-24 bg-lime-700">
+      <div className="grid w-full h-screen min-h-screen grid-cols-12 bg-sky-50">
+        <div className="w-full h-full col-span-2 p-4 pt-24 bg-sky-700">
           {navigation.map(({ name, path, icon }) => (
             <button
               className={clsx(
-                "flex items-center w-full gap-4 px-4 py-2 mb-4 font-light rounded-md hover:bg-lime-900",
-                currentPath === path ? "text-lime-500" : "text-lime-50"
+                "flex items-center w-full gap-4 px-4 py-2 mb-4 font-light rounded-md hover:bg-sky-900",
+                currentPath === path ? "text-sky-500" : "text-sky-50"
               )}
             >
               {icon}

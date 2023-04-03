@@ -74,7 +74,7 @@ function TagInput({
         {tags.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center p-1 rounded-lg bg-lime-200 text-lime-800"
+            className="inline-flex items-center p-1 rounded-lg bg-sky-200 text-sky-800"
           >
             <p>{tag}</p>
             <button onClick={() => onRemoveTag(tag)}>
@@ -101,7 +101,7 @@ function TagInput({
           <button
             onClick={() => setIsAddClicked(true)}
             className={clsx(
-              'p-1 rounded-sm flex justify-center items-center bg-lime-300 hover:bg-lime-400'
+              'p-1 rounded-sm flex justify-center items-center bg-sky-300 hover:bg-sky-400'
             )}
           >
             <BsPlus size="1.25rem" />

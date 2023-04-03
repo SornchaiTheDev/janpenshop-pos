@@ -42,8 +42,8 @@ function Pagination({
         className={clsx(
           'p-2 rounded-full ',
           canPrevPage
-            ? 'text-lime-500 hover:bg-lime-50'
-            : 'text-lime-200 cursor-not-allowed'
+            ? 'text-sky-500 hover:bg-sky-50'
+            : 'text-sky-200 cursor-not-allowed'
         )}
       >
         <BiChevronsLeft size="1.15rem" />
@@ -61,8 +61,8 @@ function Pagination({
         className={clsx(
           'p-2 rounded-full',
           canNextPage
-            ? 'text-lime-500 hover:bg-lime-50'
-            : 'text-lime-200 cursor-not-allowed'
+            ? 'text-sky-500 hover:bg-sky-50'
+            : 'text-sky-200 cursor-not-allowed'
         )}
       >
         <BiChevronsRight size="1.15rem" />

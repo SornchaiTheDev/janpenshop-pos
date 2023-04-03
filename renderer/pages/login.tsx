@@ -35,7 +35,7 @@ function Login() {
           className="relative flex flex-col w-1/3 gap-4 p-10 bg-white border rounded-md shadow-md"
         >
           <div className="absolute -translate-x-1/2 border-4 border-white rounded-full -top-10 left-1/2">
-            <div className="p-4 rounded-full text-lime-500 bg-lime-200 w-fit">
+            <div className="p-4 rounded-full text-sky-500 bg-sky-200 w-fit">
               <BiLockAlt size="2rem" />
             </div>
           </div>

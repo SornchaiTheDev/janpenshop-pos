@@ -14,7 +14,7 @@ function Badge({ canRemove, onRemoveTag, tag, onClick }: Props) {
       <button
         onClick={() => (onClick ? onClick(tag) : null)}
         key={tag}
-        className="inline-flex items-center px-1 rounded-lg bg-lime-200 text-lime-800 hover:bg-lime-300"
+        className="inline-flex items-center px-1 rounded-lg bg-sky-200 text-sky-800 hover:bg-sky-300"
       >
         <p>{tag}</p>
       </button>
@@ -22,7 +22,7 @@ function Badge({ canRemove, onRemoveTag, tag, onClick }: Props) {
   return (
     <span
       key={tag}
-      className="inline-flex items-center px-1 rounded-lg bg-lime-200 text-lime-800"
+      className="inline-flex items-center px-1 rounded-lg bg-sky-200 text-sky-800"
     >
       <p>{tag}</p>
 

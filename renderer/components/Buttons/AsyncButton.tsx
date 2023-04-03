@@ -24,7 +24,7 @@ function AsyncButton({ isLoading, onClick, title, isDisabled = false }: Props) {
         "flex items-center justify-center w-full h-12 p-2 text-white rounded outline-none focus:ring-2 ring-offset-1 ring-green-400",
         isDisabled || isLoading
           ? "bg-neutral-300 cursor-not-allowed"
-          : "bg-lime-400 hover:bg-lime-500"
+          : "bg-sky-400 hover:bg-sky-500"
       )}
       onClick={onClick}
     >

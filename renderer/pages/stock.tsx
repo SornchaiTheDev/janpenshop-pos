@@ -42,7 +42,7 @@ function Stock({ data }: Props) {
   )
   return (
     <>
-      {false && <AddItem />}
+      {true && <AddItem />}
       <Sidebar title="จัดการสินค้า">
         <Table columns={columns} pageSize={16} data={data} />
       </Sidebar>
