@@ -1,15 +1,24 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useRef } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { BiLockAlt } from 'react-icons/bi'
 import Input from 'renderer/src/components/Inputs/Simple'
 import AsyncButton from 'renderer/src/components/Buttons/AsyncButton'
+import { useSetRecoilState } from 'recoil'
+import { menusState } from '@/store/menusStore'
+import { useOnClickOutside } from 'usehooks-ts'
 
 function Login() {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [isSubmit, setIsSubmit] = useState<boolean>(false)
+  const setMenuState = useSetRecoilState(menusState)
+  const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
+
+  useOnClickOutside(formRef, () =>
+    setMenuState((prev) => ({ ...prev, isLoginModalOpen: false }))
+  )
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -26,6 +35,7 @@ function Login() {
   return (
     <div className="absolute top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full h-screen backdrop-blur-sm bg-black/20">
       <form
+        ref={formRef}
         onSubmit={handleLogin}
         className="relative flex flex-col w-1/3 gap-4 p-10 bg-white border rounded-md shadow-md"
       >

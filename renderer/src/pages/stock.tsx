@@ -8,6 +8,8 @@ import AddItem from 'renderer/src/components/AddItem'
 import type { Action } from '@interface/Action'
 import { BsPlusLg } from 'react-icons/bs'
 import { FiTrash2 } from 'react-icons/fi'
+import { useRecoilState } from 'recoil'
+import { menusState } from '@/store/menusStore'
 
 interface Props {
   data: Data[]
@@ -16,6 +18,7 @@ interface Props {
 function Stock({ data }: Props) {
   const [showAddItem, setShowAddItem] = useState(false)
   const [_data, setData] = useState(data)
+  const [menus, setMenus] = useRecoilState(menusState)
 
   const columns: Column[] = useMemo(
     () => [
@@ -71,13 +74,14 @@ function Stock({ data }: Props) {
   const actions: Action[] = [
     {
       icon: <BsPlusLg />,
-      onClick: () => setShowAddItem(true),
+      onClick: () =>
+        setMenus((prev) => ({ ...prev, isAddToStockModalOpen: true })),
       title: 'เพิ่มสินค้า',
     },
   ]
   return (
     <>
-      {showAddItem && <AddItem onClose={() => setShowAddItem(false)} />}
+      {menus.isAddToStockModalOpen && <AddItem />}
       <Sidebar title="จัดการสินค้า">
         <Table columns={columns} pageSize={16} data={_data} actions={actions} />
       </Sidebar>

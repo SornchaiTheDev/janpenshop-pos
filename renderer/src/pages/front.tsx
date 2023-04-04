@@ -4,14 +4,15 @@ import { BiLockAlt } from 'react-icons/bi'
 import { BsHandbag, BsCashCoin, BsQrCode } from 'react-icons/bs'
 import Login from 'renderer/src/components/Login'
 import { trpc } from '@/utils/trpc'
+import { menusState } from '@/store/menusStore'
+import { useRecoilState } from 'recoil'
 
 function Front() {
-  const [isLoginedOpen, setIsLoginedOpen] = React.useState(false)
+  const [menuState, setMenuState] = useRecoilState(menusState)
   const hello = trpc.hello.useQuery({ text: 'Chokun' })
-  console.log(hello.data)
   return (
     <>
-      {isLoginedOpen && <Login />}
+      {menuState.isLoginModalOpen && <Login />}
       <div className="grid h-screen grid-cols-12 bg-sky-50">
         <div className="flex flex-col max-h-screen col-span-4 gap-2 p-4 bg-white">
           <h2 className="mt-10 text-4xl font-bold">รายการสินค้า</h2>
@@ -43,7 +44,9 @@ function Front() {
           <div>
             <h5 className="text-3xl font-bold">แอดมิน</h5>
             <button
-              onClick={() => setIsLoginedOpen(true)}
+              onClick={() =>
+                setMenuState((prev) => ({ ...prev, isLoginModalOpen: true }))
+              }
               className="flex flex-col items-center justify-center w-40 h-40 gap-4 p-4 mt-4 font-bold text-white rounded-lg bg-sky-500 hover:bg-sky-600"
             >
               <BiLockAlt size="1.5rem" />
