@@ -19,15 +19,15 @@ function Input({
   value,
   onChange,
   type = 'text',
-  onFocus = null,
-  onBlur = null,
+  onFocus,
+  onBlur,
   className,
 }: Props) {
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value)
   }
   return (
-    <div className={className ? className : null}>
+    <div className={className ? className : undefined}>
       <label className="text-neutral-700">{placeholder}</label>
       <input
         onFocus={onFocus}

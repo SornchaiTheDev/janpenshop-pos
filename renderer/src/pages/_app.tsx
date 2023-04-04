@@ -1,8 +1,9 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from 'recoil'
+import { trpc } from '@/utils/trpc'
 
-import '../styles/globals.css'
+import '@/styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,4 +13,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default MyApp
+export default trpc.withTRPC(MyApp)

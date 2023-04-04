@@ -1,11 +1,14 @@
-import Item from '@/components/Front/Item'
+import Item from 'renderer/src/components/Front/Item'
 import React from 'react'
 import { BiLockAlt } from 'react-icons/bi'
 import { BsHandbag, BsCashCoin, BsQrCode } from 'react-icons/bs'
-import Login from '@/components/Login'
+import Login from 'renderer/src/components/Login'
+import { trpc } from '@/utils/trpc'
 
 function Front() {
   const [isLoginedOpen, setIsLoginedOpen] = React.useState(false)
+  const hello = trpc.hello.useQuery({ text: 'Chokun' })
+  console.log(hello.data)
   return (
     <>
       {isLoginedOpen && <Login />}

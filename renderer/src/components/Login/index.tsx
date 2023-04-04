@@ -2,8 +2,8 @@ import { FormEvent, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { BiLockAlt } from 'react-icons/bi'
-import Input from '@/components/Inputs/Simple'
-import AsyncButton from '@/components/Buttons/AsyncButton'
+import Input from 'renderer/src/components/Inputs/Simple'
+import AsyncButton from 'renderer/src/components/Buttons/AsyncButton'
 
 function Login() {
   const [username, setUsername] = useState<string>('')

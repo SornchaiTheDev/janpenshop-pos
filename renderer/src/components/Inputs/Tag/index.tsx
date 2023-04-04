@@ -19,7 +19,7 @@ function TagInput({
   placeholder,
   onChange,
   type = 'text',
-  onFocus = null,
+  onFocus,
   className,
 }: Props) {
   const usedTag = Array.from({ length: 10 }, (_, i) => `tag-${i + 1}`)
@@ -61,7 +61,7 @@ function TagInput({
   }, [tags])
 
   return (
-    <div className={className ? className : null}>
+    <div className={className}>
       <label className="block text-neutral-700">{placeholder}</label>
       <div className="flex flex-wrap items-center gap-2 pb-2 mt-2">
         {usedTag.map((tag) => (

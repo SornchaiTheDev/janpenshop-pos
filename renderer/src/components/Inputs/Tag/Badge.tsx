@@ -8,7 +8,7 @@ interface Props {
   onClick?: (tag: string) => void
 }
 
-function Badge({ canRemove, onRemoveTag, tag, onClick }: Props) {
+function Badge({ canRemove, onRemoveTag = () => {}, tag, onClick }: Props) {
   if (!canRemove)
     return (
       <button

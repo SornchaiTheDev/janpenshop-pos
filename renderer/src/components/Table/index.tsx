@@ -3,8 +3,8 @@ import Pagination from './Pagination'
 import { useTable } from 'react-table'
 import { Column, useSortBy, usePagination } from 'react-table'
 import { AiOutlineSortAscending, AiOutlineSortDescending } from 'react-icons/ai'
-import type { Data } from '@/types/interface/Table'
-import { Action } from '@/types/interface/Action'
+import type { Data } from '@interface/Table'
+import { Action } from '@interface/Action'
 
 interface Props {
   data: Data[]
@@ -99,11 +99,7 @@ function Table({ title, columns, data, pageSize, actions }: Props) {
               <tr className="text-center" {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td
-                      key={cell.row.id}
-                      {...cell.getCellProps()}
-                      className="p-2 truncate"
-                    >
+                    <td {...cell.getCellProps()} className="p-2 truncate">
                       {cell.render('Cell')}
                     </td>
                   )
