@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { IoIosClose } from 'react-icons/io'
 import { BsPlus } from 'react-icons/bs'
 import Badge from './Badge'
+import { trpc } from '@/utils/trpc'
 
 interface Props {
   name?: string
@@ -22,7 +23,7 @@ function TagInput({
   onFocus,
   className,
 }: Props) {
-  const usedTag = Array.from({ length: 10 }, (_, i) => `tag-${i + 1}`)
+  const usedTags = trpc.tags.list.useQuery()
   const [tags, setTags] = useState<string[]>([])
   const [value, setValue] = useState<string>('')
   const [isAddClicked, setIsAddClicked] = useState<boolean>(false)
@@ -35,25 +36,17 @@ function TagInput({
     setTags(tags.filter((t) => t !== tag))
   }
 
-  const onBlur = () => {
-    if (value.length === 0) {
-      setIsAddClicked(false)
-    }
-  }
-
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (value.length > 0) {
-      addTag(value)
-      setValue('')
-      setIsAddClicked(false)
-    }
+    addTag(value)
   }
 
   const addTag = (tag: string) => {
     if (tags.includes(tag)) return
-
+    if (value.length <= 0) return
     setTags([...tags, tag])
+    setValue('')
+    setIsAddClicked(false)
   }
 
   useEffect(() => {
@@ -64,14 +57,15 @@ function TagInput({
     <div className={className}>
       <label className="block text-neutral-700">{placeholder}</label>
       <div className="flex flex-wrap items-center gap-2 pb-2 mt-2">
-        {usedTag.map((tag) => (
-          <Badge
-            key={tag}
-            canRemove={false}
-            onClick={() => addTag(tag)}
-            tag={tag}
-          />
-        ))}
+        {usedTags.data &&
+          usedTags.data.map(({ id, name }) => (
+            <Badge
+              key={id}
+              canRemove={false}
+              onClick={() => addTag(name)}
+              tag={name}
+            />
+          ))}
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-2">
         {tags.map((tag) => (
@@ -90,7 +84,7 @@ function TagInput({
             <input
               autoFocus
               onFocus={onFocus}
-              onBlur={onBlur}
+              onBlur={() => addTag(value)}
               name={name}
               type={type}
               value={value}

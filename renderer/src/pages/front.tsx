@@ -3,7 +3,6 @@ import { ReactNode } from 'react'
 import { BiLockAlt } from 'react-icons/bi'
 import { BsHandbag, BsCashCoin, BsQrCode } from 'react-icons/bs'
 import Login from 'renderer/src/components/Login'
-import { trpc } from '@/utils/trpc'
 import { menusState } from '@/store/menusStore'
 import { useRecoilState } from 'recoil'
 
@@ -15,7 +14,6 @@ interface Button {
 
 function Front() {
   const [menuState, setMenuState] = useRecoilState(menusState)
-  const hello = trpc.hello.useQuery({ text: 'Chokun' })
 
   const buttons: Button[] = [
     {
@@ -39,9 +37,7 @@ function Front() {
         <div className="flex flex-col h-[calc(100vh-4vh)] col-span-9  p-4 bg-white shadow-md rounded-xl">
           <h2 className="mt-2 text-4xl font-bold">รายการสินค้า</h2>
           <div className="flex-1 mt-4 overflow-auto">
-            {new Array(100).fill(0).map((_, i) => (
-              <Item isEven={i % 2 == 0} />
-            ))}
+            <Item isEven={false} />
           </div>
 
           <div className="flex items-start justify-between gap-2 mb-2 border-t-2">
@@ -78,6 +74,7 @@ function Front() {
         <div className="flex flex-col col-span-3 gap-4 py-4">
           {buttons.map(({ name, icon, onClick }) => (
             <button
+              key={name}
               onClick={onClick}
               className="flex flex-col items-center justify-center h-full gap-4 p-4 font-bold text-white rounded-lg bg-sky-500 hover:bg-sky-600"
             >

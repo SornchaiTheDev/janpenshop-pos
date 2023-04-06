@@ -1,5 +1,4 @@
-import { FormEvent, useState, useRef } from 'react'
-import Head from 'next/head'
+import { FormEvent, useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { BiLockAlt } from 'react-icons/bi'
 import Input from 'renderer/src/components/Inputs/Simple'
@@ -7,14 +6,18 @@ import AsyncButton from 'renderer/src/components/Buttons/AsyncButton'
 import { useSetRecoilState } from 'recoil'
 import { menusState } from '@/store/menusStore'
 import { useOnClickOutside } from 'usehooks-ts'
+import { trpc } from '@/utils/trpc'
 
 function Login() {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [isSubmit, setIsSubmit] = useState<boolean>(false)
   const setMenuState = useSetRecoilState(menusState)
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
+
+  const mutation = trpc.auth.login.useMutation()
+  // const createUser = trpc.auth.create.useMutation()
+
 
   useOnClickOutside(formRef, () =>
     setMenuState((prev) => ({ ...prev, isLoginModalOpen: false }))
@@ -22,16 +25,20 @@ function Login() {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsSubmit(true)
-    await new Promise((resolve, reject) =>
-      setTimeout(() => {
-        setIsSubmit(false)
-        resolve('success')
-      }, 1000)
-    )
-    router.replace('/dashboard')
-    console.log(username, password)
+
+    try {
+      // await createUser.mutateAsync({ username, password })
+      const { isAuthed } = await mutation.mutateAsync({ username, password })
+
+      if (isAuthed) {
+        router.replace('/dashboard')
+        setMenuState((prev) => ({ ...prev, isLoginModalOpen: false }))
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
+
   return (
     <div className="absolute top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full h-screen backdrop-blur-sm bg-black/20">
       <form
@@ -44,6 +51,9 @@ function Login() {
             <BiLockAlt size="2rem" />
           </div>
         </div>
+        {mutation.data && mutation.data.isAuthed === false && (
+          <p className="text-red-500">*ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</p>
+        )}
 
         <Input
           value={username}
@@ -60,8 +70,8 @@ function Login() {
         />
 
         <AsyncButton
-          isDisabled={false}
-          isLoading={isSubmit}
+          isDisabled={mutation.isLoading}
+          isLoading={mutation.isLoading}
           title="เข้าสู่ระบบ"
         />
       </form>

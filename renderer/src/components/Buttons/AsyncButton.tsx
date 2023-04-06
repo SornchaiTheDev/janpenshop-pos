@@ -21,7 +21,7 @@ function AsyncButton({ isLoading, onClick, title, isDisabled = false }: Props) {
       type="submit"
       disabled={isLoading || isDisabled}
       className={clsx(
-        "flex items-center justify-center w-full h-12 p-2 text-white rounded outline-none focus:ring-2 ring-offset-1 ring-green-400",
+        "flex items-center justify-center w-full h-12 p-2 text-white rounded outline-none focus:ring-2 ring-offset-1 ring-sky-400",
         isDisabled || isLoading
           ? "bg-neutral-300 cursor-not-allowed"
           : "bg-sky-400 hover:bg-sky-500"

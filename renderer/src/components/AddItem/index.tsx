@@ -5,18 +5,21 @@ import TagInput from '../Inputs/Tag'
 import { useRecoilState } from 'recoil'
 import { menusState } from '@/store/menusStore'
 import { useOnClickOutside } from 'usehooks-ts'
+import { trpc } from '@/utils/trpc'
 
 function AddItem() {
   const [menus, setMenus] = useRecoilState(menusState)
   const formRef = useRef<HTMLDivElement>(null)
 
-  const [barcode, setBarcode] = useState<string>('123456789')
-  const [name, setName] = useState<string>('Banana')
-  const [retailPrice, setRetailPrice] = useState<string>('1.99')
-  const [wholesalePrice, setWholesalePrice] = useState<string>('0.99')
-  const [cost, setCost] = useState<string>('0.50')
-  const [tags, setTags] = useState<string[]>(['Fruit', 'Food'])
-  const [stockAmount, setStockAmount] = useState<string>('10')
+  const [barcode, setBarcode] = useState<string>('')
+  const [name, setName] = useState<string>('')
+  const [retailPrice, setRetailPrice] = useState<string>('')
+  const [wholesalePrice, setWholesalePrice] = useState<string>('')
+  const [cost, setCost] = useState<string>('')
+  const [tags, setTags] = useState<string[]>([''])
+  const [stockAmount, setStockAmount] = useState<string>('')
+
+  const addItem = trpc.stock.addItem.useMutation()
 
   const onClose = () => {
     setMenus((prev) => ({ ...prev, isAddToStockModalOpen: false }))
@@ -24,17 +27,27 @@ function AddItem() {
 
   useOnClickOutside(formRef, onClose)
 
-  const handleAddItem = () => {
-    const item = {
-      barcode,
-      name,
-      retailPrice,
-      wholesalePrice,
-      cost,
-      tags,
-      stockAmount,
+  const handleAddItem = async () => {
+    try {
+      const item = {
+        barcode,
+        name,
+        retailPrice: parseFloat(retailPrice),
+        wholesalePrice: parseFloat(wholesalePrice),
+        cost: parseFloat(cost),
+        tags,
+        stockAmount: parseInt(stockAmount),
+      }
+
+      const res = await addItem.mutateAsync(item)
+
+      if (res) {
+        onClose()
+        console.log(res)
+      }
+    } catch (err) {
+      console.error(err)
     }
-    onClose()
   }
 
   return (
