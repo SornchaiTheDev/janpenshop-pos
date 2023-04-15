@@ -8,22 +8,11 @@ export const stockRouter = router({
       z.object({
         barcode: z.string(),
         name: z.string(),
-        retailPrice: z.number(),
-        wholesalePrice: z.number(),
-        cost: z.number(),
+        price: z.number(),
         tags: z.array(z.string()),
-        stockAmount: z.number(),
       })
     )
     .mutation(async ({ input }) => {
-      const isExisted = await prisma.stocks.findFirst({
-        where: {
-          barcode: input.barcode,
-        },
-      })
-      if (isExisted) {
-        throw new Error('Item already existed')
-      }
       // check if tags already in tags table
       const existingTags = await Promise.all(
         input.tags.map((name) => prisma.tag.findUnique({ where: { name } }))
@@ -43,21 +32,13 @@ export const stockRouter = router({
         data: {
           barcode: input.barcode,
           name: input.name,
-          retailPrice: input.retailPrice,
-          wholesalePrice: input.wholesalePrice,
-          cost: input.cost,
+          price: input.price,
           tags: {
             connect: allTags.map((tag) => ({ id: tag?.id })),
-          },
-          stockAmount: {
-            create: {
-              amount: input.stockAmount,
-            },
           },
         },
         include: {
           tags: true,
-          stockAmount: true,
         },
       })
 
@@ -67,4 +48,22 @@ export const stockRouter = router({
     const deleted = await prisma.stocks.deleteMany()
     console.log(deleted)
   }),
+  getItem: protectedProcedure.query(() => {
+    return prisma.stocks.findMany({ include: { tags: true } })
+  }),
+  listWithPagination: protectedProcedure
+    .input(z.object({ pageIndex: z.number(), pageSize: z.number() }))
+    .mutation(async ({ input }) => {
+      const { pageIndex, pageSize } = input
+      const totalPage = Math.ceil((await prisma.stocks.count()) / pageSize)
+      const items = await prisma.stocks.findMany({
+        skip: pageIndex * pageSize,
+        take: pageSize,
+        include: {
+          tags: true,
+        },
+      })
+
+      return { items, totalPage }
+    }),
 })

@@ -25,6 +25,10 @@ function Pagination({
   const [page, setPage] = useState<string>((currentPage + 1).toString())
   const [isFocus, setIsFocus] = useState(false)
 
+  useEffect(() => {
+    setPage((currentPage + 1).toString())
+  }, [currentPage])
+
   const setGoToPage = () => {
     let _page = page
 
@@ -47,7 +51,8 @@ function Pagination({
   return (
     <div className="flex items-center gap-2 p-1 text-sm rounded-lg">
       <button
-        onClick={prevPage}
+        disabled={!canPrevPage}
+        onClick={canPrevPage ? prevPage : undefined}
         className={clsx(
           'p-2 rounded-full ',
           canPrevPage
@@ -65,7 +70,8 @@ function Pagination({
         className="text-center"
       />
       <button
-        onClick={nextPage}
+        disabled={!canNextPage}
+        onClick={canNextPage ? nextPage : undefined}
         className={clsx(
           'p-2 rounded-full',
           canNextPage

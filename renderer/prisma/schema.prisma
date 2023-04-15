@@ -17,29 +17,10 @@ model Users {
 }
 
 model Stocks {
-  id             String       @id @default(uuid())
-  barcode        String       @unique
-  name           String
-  retailPrice    Float
-  wholesalePrice Float
-  cost           Float
-  frontAmount    FrontAmount?
-  stockAmount    StockAmount?
-  tags           Tag[]
-}
-
-model FrontAmount {
-  id      String @id @default(uuid())
-  amount  Int    @default(0)
-  stock   Stocks @relation(fields: [stockId], references: [id])
-  stockId String @unique
-}
-
-model StockAmount {
-  id      String @id @default(uuid())
-  amount  Int    @default(0)
-  stock   Stocks @relation(fields: [stockId], references: [id])
-  stockId String @unique
+  barcode String @id @unique
+  name    String
+  price   Float
+  tags    Tag[]
 }
 
 model Tag {

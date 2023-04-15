@@ -1,28 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Pagination from './Pagination'
 import { useTable } from 'react-table'
 import { Column, useSortBy, usePagination } from 'react-table'
 import { AiOutlineSortAscending, AiOutlineSortDescending } from 'react-icons/ai'
-import type { Data } from '@interface/Table'
 import { Action } from '@interface/Action'
+import { Prisma } from '@prisma/client'
+
+type Stocks = Prisma.StocksGetPayload<{ include: { tags: true } }>
 
 interface Props {
-  data: Data[]
+  data: Stocks[]
   pageSize: number
   title?: string
-  columns: Column[]
+  columns: Column<Stocks>[]
   actions?: Action[]
+  pageCount: number
 }
 
-function Table({ title, columns, data, pageSize, actions }: Props) {
-  const defaultColumn = React.useMemo(
-    () => ({
-      minWidth: 30,
-      width: 150,
-      maxWidth: 400,
-    }),
-    []
-  )
+function Table({ data, title, columns, pageSize, actions, pageCount }: Props) {
   const {
     getTableProps,
     headerGroups,
@@ -35,9 +30,12 @@ function Table({ title, columns, data, pageSize, actions }: Props) {
     previousPage,
     state: { pageIndex },
     gotoPage,
-    pageOptions,
   } = useTable(
-    { columns, data, initialState: { pageSize } },
+    {
+      columns,
+      data,
+      initialState: { pageSize },
+    },
     useSortBy,
     usePagination
   )
@@ -62,7 +60,7 @@ function Table({ title, columns, data, pageSize, actions }: Props) {
         </div>
         <Pagination
           currentPage={pageIndex}
-          pageSize={pageOptions.length}
+          pageSize={Math.ceil(data.length / pageSize)}
           canNextPage={canNextPage}
           canPrevPage={canPreviousPage}
           prevPage={previousPage}
@@ -98,6 +96,9 @@ function Table({ title, columns, data, pageSize, actions }: Props) {
             return (
               <tr className="text-center" {...row.getRowProps()}>
                 {row.cells.map((cell) => {
+                  if (cell.column.id === 'id') {
+                    return <td>{cell.row.index + 1 + pageIndex}</td>
+                  }
                   return (
                     <td {...cell.getCellProps()} className="p-2 truncate">
                       {cell.render('Cell')}

@@ -55,12 +55,12 @@ function Home({ data }: Props) {
         <Statistic title="กำไร (วันนี้)" unit="baht" value={32125} />
       </div>
 
-      <Table
+      {/* <Table
         title="จำนวนสินค้าคงเหลือ"
         pageSize={12}
         columns={columns}
         data={data}
-      />
+      /> */}
     </Sidebar>
   )
 }

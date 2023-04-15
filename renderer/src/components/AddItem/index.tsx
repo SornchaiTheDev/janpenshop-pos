@@ -32,11 +32,8 @@ function AddItem() {
       const item = {
         barcode,
         name,
-        retailPrice: parseFloat(retailPrice),
-        wholesalePrice: parseFloat(wholesalePrice),
-        cost: parseFloat(cost),
+        price: parseFloat(retailPrice),
         tags,
-        stockAmount: parseInt(stockAmount),
       }
 
       const res = await addItem.mutateAsync(item)
@@ -62,34 +59,20 @@ function AddItem() {
             <IoIosClose size="1.5rem" />
           </button>
         </div>
+        {addItem.error && (
+          <p className="mt-2 font-light text-red-500">*มีสินค้านี้อยู่แล้ว!</p>
+        )}
         <div className="flex flex-col gap-2 mt-2">
           <Input placeholder="บาร์โค้ด" value={barcode} onChange={setBarcode} />
           <Input placeholder="ชื่อสินค้า" value={name} onChange={setName} />
           <div className="flex flex-wrap gap-2 mt-4">
             <Input
-              placeholder="ราคาขายปลีก (ต่อชิ้น)"
+              placeholder="ราคาขาย (ต่อชิ้น)"
               value={retailPrice}
               onChange={setRetailPrice}
               className="flex-1"
             />
-            <Input
-              placeholder="ราคาขายส่ง (ต่อชิ้น)"
-              value={wholesalePrice}
-              onChange={setWholesalePrice}
-              className="flex-1"
-            />
-            <Input
-              placeholder="ราคาทุน (ต่อชิ้น)"
-              value={cost}
-              onChange={setCost}
-              className="flex-1"
-            />
           </div>
-          <Input
-            placeholder="จำนวน"
-            value={stockAmount}
-            onChange={setStockAmount}
-          />
 
           <TagInput placeholder="ประเภท" onChange={setTags} />
 

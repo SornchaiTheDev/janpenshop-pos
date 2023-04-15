@@ -22,11 +22,6 @@ function Front() {
       onClick: () =>
         setMenuState((prev) => ({ ...prev, isLoginModalOpen: true })),
     },
-    {
-      name: 'เพิ่มสินค้าหน้าร้าน',
-      icon: <BsHandbag size="4rem" />,
-      onClick: () => {},
-    },
     { name: 'เงินสด', icon: <BsCashCoin size="4rem" />, onClick: () => {} },
     { name: 'คิวอาร์โค้ด', icon: <BsQrCode size="4rem" />, onClick: () => {} },
   ]

@@ -38,12 +38,14 @@ function TagInput({
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (value.length <= 0) return
     addTag(value)
   }
 
   const addTag = (tag: string) => {
     if (tags.includes(tag)) return
-    if (value.length <= 0) return
+
+    console.log('called')
     setTags([...tags, tag])
     setValue('')
     setIsAddClicked(false)

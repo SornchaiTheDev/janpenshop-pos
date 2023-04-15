@@ -16,7 +16,7 @@ function Login() {
   const router = useRouter()
 
   const mutation = trpc.auth.login.useMutation()
-  // const createUser = trpc.auth.create.useMutation()
+  const createUser = trpc.auth.create.useMutation()
 
 
   useOnClickOutside(formRef, () =>

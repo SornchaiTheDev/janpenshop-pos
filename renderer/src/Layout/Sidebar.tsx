@@ -42,6 +42,7 @@ function Sidebar({ children, title }: Props) {
         <div className="w-full h-full col-span-1 p-2 pt-10 lg:col-span-2 lg:p-4 bg-sky-700">
           {navigation.map(({ name, path, icon }) => (
             <button
+              key={name}
               onClick={() => router.replace(path)}
               className={clsx(
                 'flex justify-center lg:justify-start items-center w-full gap-4 lg:px-2 lg:py-2 py-4 lg:mb-4 font-light rounded-md hover:bg-sky-900',
@@ -49,7 +50,14 @@ function Sidebar({ children, title }: Props) {
               )}
             >
               <div className="w-[1.3rem]"> {icon}</div>
-              <h4 className={clsx("hidden text-lg lg:block",currentPath === path ? "font-bold" :"font-normal")}>{name}</h4>
+              <h4
+                className={clsx(
+                  'hidden text-lg lg:block',
+                  currentPath === path ? 'font-bold' : 'font-normal'
+                )}
+              >
+                {name}
+              </h4>
             </button>
           ))}
         </div>
