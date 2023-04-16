@@ -1,97 +1,28 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
 import Sidebar from '@/Layout/Sidebar'
 import Table from 'renderer/src/components/Table'
 import type { Data } from '@interface/Table'
-import { fakeData } from '@/utils'
-import { Column } from 'react-table'
 import AddItem from 'renderer/src/components/AddItem'
 import type { Action } from '@interface/Action'
 import { BsPlusLg } from 'react-icons/bs'
-import { FiTrash2 } from 'react-icons/fi'
 import { trpc } from '@/utils/trpc'
-import { Prisma, Tag } from '@prisma/client'
-
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { menusState } from '@/store/menusStore'
-import { tableStore } from '@/store/tableStore'
+import { Prisma, Tag } from '@prisma/client'
+import { FiEdit3, FiTrash2 } from 'react-icons/fi'
+import { Column } from 'react-table'
+import RemoveItem from '@/components/RemoveItem'
+import { useState } from 'react'
+import EditItem from '@/components/EditItem'
+import { Stocks } from '@/interface/Stocks'
 interface Props {
   data: Data[]
 }
 
-type Stocks = Prisma.StocksGetPayload<{ include: { tags: true } }>
-
 function Stock() {
-  const [showAddItem, setShowAddItem] = useState(false)
   const [menus, setMenus] = useRecoilState(menusState)
-  const [data, setData] = useState<Stocks[]>([])
-  const [totalPage, setTotalPage] = useState(0)
+  const [selectedItem, setSelectedItem] = useState<Stocks | null>(null)
 
   const stockData = trpc.stock.getItem.useQuery()
-
-  const columns: Column<Stocks>[] = useMemo(
-    () => [
-      {
-        Header: 'บาร์โค้ด',
-        accessor: 'barcode',
-      },
-      {
-        Header: 'ชื่อสินค้า',
-        accessor: 'name',
-      },
-      {
-        Header: 'ประเภท',
-        accessor: 'tags',
-        Cell: (props) => (
-          <div className="flex flex-wrap justify-center gap-1">
-            {props.row.values.tags.map((tag: Tag) => (
-              <span
-                key={tag.id}
-                className="px-2 py-1 text-xs font-medium text-white rounded-lg bg-sky-500"
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
-        ),
-      },
-      {
-        Header: 'ราคาขาย',
-        accessor: 'price',
-      },
-      // {
-      //   Header: 'ราคาปลีก',
-      //   accessor: 'retailPrice',
-      // },
-      // {
-      //   Header: 'ราคาส่ง',
-      //   accessor: 'wholesalePrice',
-      // },
-      // {
-      //   Header: 'ราคาทุน',
-      //   accessor: 'cost',
-      // },
-      // {
-      //   Header: 'จัดการ',
-      //   accessor: 'actions',
-      //   Cell: (props) => (
-      //     <button
-      //       className="p-2 text-sm text-red-500 bg-red-200 rounded-lg"
-      //       onClick={() => handleDelete(props.row.values.barcode)}
-      //     >
-      //       <FiTrash2 />
-      //     </button>
-      //   ),
-      // },
-    ],
-    []
-  )
-
-  const handleDelete = (barcode: string) => {
-    // if (data) {
-    //   setData(data.filter((item) => item.barcode !== barcode))
-    // }
-    // wait for backend
-  }
 
   const actions: Action[] = [
     {
@@ -102,20 +33,88 @@ function Stock() {
     },
   ]
 
-  // const handleFetchData = useCallback(
-  //   async (pageIndex: number, pageSize: number) => {
-  //     setData(items)
-  //     setTotalPage(totalPage)
-  //   },
-  //   []
-  // )
+  const columns: Column<Stocks>[] = [
+    {
+      Header: 'บาร์โค้ด',
+      accessor: 'barcode',
+    },
+    {
+      Header: 'ชื่อสินค้า',
+      accessor: 'name',
+    },
+    {
+      Header: 'ประเภท',
+      accessor: 'tags',
+      Cell: (props) => (
+        <div className="flex flex-wrap justify-center gap-1">
+          {props.row.values.tags.map((tag: Tag) => (
+            <span
+              key={tag.id}
+              className="px-2 py-1 text-xs font-medium text-white rounded-lg bg-sky-500"
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      ),
+    },
+    {
+      Header: 'ราคาขาย',
+      accessor: 'price',
+    },
+    {
+      Header: 'แก้ไข/ลบ',
+      Cell: (props) => (
+        <>
+          <button
+            className="p-2 mr-2 text-sm text-yellow-500 bg-yellow-200 rounded-lg"
+            onClick={() =>
+              handleSelectItem({
+                ...(props.row.values as Stocks),
+                type: 'edit',
+              })
+            }
+          >
+            <FiEdit3 />
+          </button>
+          <button
+            className="p-2 text-sm text-red-500 bg-red-200 rounded-lg"
+            onClick={() =>
+              handleSelectItem({
+                ...(props.row.values as Stocks),
+                type: 'delete',
+              })
+            }
+          >
+            <FiTrash2 />
+          </button>
+        </>
+      ),
+    },
+  ]
+
+  const handleSelectItem = (item: Stocks & { type: string }) => {
+    setSelectedItem(item)
+    if (item.type === 'edit')
+      return setMenus((prev) => ({ ...prev, isEditStockModalOpen: true }))
+    setMenus((prev) => ({ ...prev, isAlertModalOpen: true }))
+  }
+
+  const refetch = () => {
+    stockData.refetch()
+  }
 
   return (
     <>
-      {menus.isAddToStockModalOpen && <AddItem />}
+      {menus.isEditStockModalOpen && (
+        <EditItem onConfirm={refetch} item={selectedItem!} />
+      )}
+      {menus.isAlertModalOpen && (
+        <RemoveItem onConfirm={refetch} item={selectedItem!} />
+      )}
+      {menus.isAddToStockModalOpen && <AddItem onConfirm={refetch} />}
       <Sidebar title="จัดการสินค้า">
         <Table
-          pageCount={totalPage}
           columns={columns}
           pageSize={16}
           data={stockData.data ? stockData.data : []}

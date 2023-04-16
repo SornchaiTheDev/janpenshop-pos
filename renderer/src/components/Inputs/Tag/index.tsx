@@ -7,6 +7,7 @@ import Badge from './Badge'
 import { trpc } from '@/utils/trpc'
 
 interface Props {
+  initialTags?: string[]
   name?: string
   placeholder?: string
   type?: HTMLInputTypeAttribute
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function TagInput({
+  initialTags = [],
   name,
   placeholder,
   onChange,
@@ -24,7 +26,7 @@ function TagInput({
   className,
 }: Props) {
   const usedTags = trpc.tags.list.useQuery()
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(initialTags)
   const [value, setValue] = useState<string>('')
   const [isAddClicked, setIsAddClicked] = useState<boolean>(false)
 

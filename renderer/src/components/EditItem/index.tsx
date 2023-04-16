@@ -6,31 +6,31 @@ import { useSetRecoilState } from 'recoil'
 import { menusState } from '@/store/menusStore'
 import { useOnClickOutside } from 'usehooks-ts'
 import { trpc } from '@/utils/trpc'
+import { Stocks } from '@/interface/Stocks'
 
 interface Props {
+  item: Stocks
   onConfirm: () => void
 }
-function AddItem({ onConfirm }: Props) {
+
+function EditItem({ item, onConfirm }: Props) {
   const setMenus = useSetRecoilState(menusState)
   const formRef = useRef<HTMLDivElement>(null)
 
-  const [barcode, setBarcode] = useState<string>('')
-  const [name, setName] = useState<string>('')
-  const [retailPrice, setRetailPrice] = useState<string>('')
-  const [wholesalePrice, setWholesalePrice] = useState<string>('')
-  const [cost, setCost] = useState<string>('')
-  const [tags, setTags] = useState<string[]>([''])
-  const [stockAmount, setStockAmount] = useState<string>('')
+  const [barcode, setBarcode] = useState<string>(item.barcode)
+  const [name, setName] = useState<string>(item.name)
+  const [retailPrice, setRetailPrice] = useState<string>(item.price.toString())
+  const [tags, setTags] = useState<string[]>(item.tags.map((item) => item.name))
 
-  const addItem = trpc.stock.addItem.useMutation()
+  const editItem = trpc.stock.editItem.useMutation()
 
   const onClose = () => {
-    setMenus((prev) => ({ ...prev, isAddToStockModalOpen: false }))
+    setMenus((prev) => ({ ...prev, isEditStockModalOpen: false }))
   }
 
   useOnClickOutside(formRef, onClose)
 
-  const handleAddItem = async () => {
+  const handleEditItem = async () => {
     try {
       const item = {
         barcode,
@@ -38,12 +38,13 @@ function AddItem({ onConfirm }: Props) {
         price: parseFloat(retailPrice),
         tags,
       }
-
-      const res = await addItem.mutateAsync(item)
+      console.log(item)
+      const res = await editItem.mutateAsync(item)
 
       if (res) {
         onConfirm()
         onClose()
+        console.log(res)
       }
     } catch (err) {
       console.error(err)
@@ -57,13 +58,13 @@ function AddItem({ onConfirm }: Props) {
         className="w-1/2 p-4 font-medium rounded-lg bg-sky-100"
       >
         <div className="flex items-center justify-between">
-          <h4 className="text-2xl text-neutral-800">เพิ่มสินค้า</h4>
+          <h4 className="text-2xl text-neutral-800">แก้ไขสินค้า</h4>
           <button onClick={onClose}>
             <IoIosClose size="1.5rem" />
           </button>
         </div>
-        {addItem.error && (
-          <p className="mt-2 font-light text-red-500">*มีสินค้านี้อยู่แล้ว!</p>
+        {editItem.error && (
+          <p className="mt-2 font-light text-red-500">*เกิดข้อผิดพลาด</p>
         )}
         <div className="flex flex-col gap-2 mt-2">
           <Input placeholder="บาร์โค้ด" value={barcode} onChange={setBarcode} />
@@ -77,10 +78,14 @@ function AddItem({ onConfirm }: Props) {
             />
           </div>
 
-          <TagInput placeholder="ประเภท" onChange={setTags} />
+          <TagInput
+            initialTags={tags}
+            placeholder="ประเภท"
+            onChange={setTags}
+          />
 
           <button
-            onClick={handleAddItem}
+            onClick={handleEditItem}
             className="flex items-center justify-center gap-2 p-2 mt-2 font-medium rounded-md bg-sky-300 hover:bg-sky-400 text-sky-700"
           >
             ตกลง
@@ -91,4 +96,4 @@ function AddItem({ onConfirm }: Props) {
   )
 }
 
-export default AddItem
+export default EditItem

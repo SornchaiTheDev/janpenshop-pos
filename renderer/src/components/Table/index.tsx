@@ -14,10 +14,9 @@ interface Props {
   title?: string
   columns: Column<Stocks>[]
   actions?: Action[]
-  pageCount: number
 }
 
-function Table({ data, title, columns, pageSize, actions, pageCount }: Props) {
+function Table({ data, title, columns, pageSize, actions }: Props) {
   const {
     getTableProps,
     headerGroups,
