@@ -17,10 +17,11 @@ model Users {
 }
 
 model Stocks {
-  barcode String @id @unique
-  name    String
-  price   Float
-  tags    Tag[]
+  barcode        String @id @unique
+  name           String
+  retailPrice    Float
+  wholesalePrice Float
+  tags           Tag[]
 }
 
 model Tag {

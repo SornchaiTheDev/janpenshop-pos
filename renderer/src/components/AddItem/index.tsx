@@ -17,7 +17,8 @@ function AddItem({ onConfirm }: Props) {
   const [barcode, setBarcode] = useState<string>('')
   const [name, setName] = useState<string>('')
   const [retailPrice, setRetailPrice] = useState<string>('')
-  const [wholesalePrice, setWholesalePrice] = useState<string>('')
+  const [wholeSalePrice, setWholesalePrice] = useState<string>('')
+
   const [cost, setCost] = useState<string>('')
   const [tags, setTags] = useState<string[]>([''])
   const [stockAmount, setStockAmount] = useState<string>('')
@@ -35,7 +36,8 @@ function AddItem({ onConfirm }: Props) {
       const item = {
         barcode,
         name,
-        price: parseFloat(retailPrice),
+        retailPrice: parseFloat(retailPrice),
+        wholeSalePrice: parseFloat(wholeSalePrice),
         tags,
       }
 
@@ -73,6 +75,12 @@ function AddItem({ onConfirm }: Props) {
               placeholder="ราคาขาย (ต่อชิ้น)"
               value={retailPrice}
               onChange={setRetailPrice}
+              className="flex-1"
+            />
+            <Input
+              placeholder="ราคาขาย (ต่อชิ้น)"
+              value={wholeSalePrice}
+              onChange={setWholesalePrice}
               className="flex-1"
             />
           </div>

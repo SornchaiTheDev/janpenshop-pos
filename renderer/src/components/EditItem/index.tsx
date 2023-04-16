@@ -19,7 +19,12 @@ function EditItem({ item, onConfirm }: Props) {
 
   const [barcode, setBarcode] = useState<string>(item.barcode)
   const [name, setName] = useState<string>(item.name)
-  const [retailPrice, setRetailPrice] = useState<string>(item.price.toString())
+  const [retailPrice, setRetailPrice] = useState<string>(
+    item.retailPrice.toString()
+  )
+  const [wholesalePrice, setWholesalePrice] = useState<string>(
+    item.wholesalePrice.toString()
+  )
   const [tags, setTags] = useState<string[]>(item.tags.map((item) => item.name))
 
   const editItem = trpc.stock.editItem.useMutation()
@@ -35,7 +40,8 @@ function EditItem({ item, onConfirm }: Props) {
       const item = {
         barcode,
         name,
-        price: parseFloat(retailPrice),
+        retailPrice: parseFloat(retailPrice),
+        wholeSalePrice: parseFloat(wholesalePrice),
         tags,
       }
       console.log(item)
@@ -71,9 +77,15 @@ function EditItem({ item, onConfirm }: Props) {
           <Input placeholder="ชื่อสินค้า" value={name} onChange={setName} />
           <div className="flex flex-wrap gap-2 mt-4">
             <Input
-              placeholder="ราคาขาย (ต่อชิ้น)"
+              placeholder="ราคาขายปลีก (ต่อชิ้น)"
               value={retailPrice}
               onChange={setRetailPrice}
+              className="flex-1"
+            />
+            <Input
+              placeholder="ราคาขายส่ง (ต่อชิ้น)"
+              value={wholesalePrice}
+              onChange={setWholesalePrice}
               className="flex-1"
             />
           </div>

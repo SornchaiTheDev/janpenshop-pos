@@ -15,7 +15,7 @@ export const fakeData = (amount: number = 0) => {
     const barcode = Math.floor(Math.random() * 1000000000)
       .toString()
       .padStart(9, '0')
-    const name = `แชมพู ลด ความ มัน ห ห ฟ ฟ ห ${i}`
+    const name = `สินค้า ${i}`
     const tag = `Tag ${Math.floor(Math.random() * 10) + 1}`
     const retailPrice = Math.floor(Math.random() * 10000) + 1
     const wholesalePrice = Math.floor(Math.random() * 10000) + 1

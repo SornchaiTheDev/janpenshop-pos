@@ -8,7 +8,8 @@ export const stockRouter = router({
       z.object({
         barcode: z.string(),
         name: z.string(),
-        price: z.number(),
+        retailPrice: z.number(),
+        wholeSalePrice: z.number(),
         tags: z.array(z.string()),
       })
     )
@@ -32,7 +33,8 @@ export const stockRouter = router({
         data: {
           barcode: input.barcode,
           name: input.name,
-          price: input.price,
+          retailPrice: input.retailPrice,
+          wholesalePrice: input.wholeSalePrice,
           tags: {
             connect: allTags.map((tag) => ({ id: tag?.id })),
           },
@@ -59,7 +61,8 @@ export const stockRouter = router({
       z.object({
         barcode: z.string(),
         name: z.string(),
-        price: z.number(),
+        retailPrice: z.number(),
+        wholeSalePrice: z.number(),
         tags: z.array(z.string()),
       })
     )
@@ -85,7 +88,8 @@ export const stockRouter = router({
         },
         data: {
           name: input.name,
-          price: input.price,
+          retailPrice: input.retailPrice,
+          wholesalePrice: input.wholeSalePrice,
           tags: {
             set: allTags.map((tag) => ({ id: tag?.id })),
           },

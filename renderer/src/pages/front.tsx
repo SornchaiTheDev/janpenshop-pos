@@ -1,5 +1,5 @@
 import Item from 'renderer/src/components/Front/Item'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { BiLockAlt } from 'react-icons/bi'
 import { BsHandbag, BsCashCoin, BsQrCode } from 'react-icons/bs'
 import Login from 'renderer/src/components/Login'
@@ -14,6 +14,7 @@ interface Button {
 
 function Front() {
   const [menuState, setMenuState] = useRecoilState(menusState)
+  const [items, setItems] = useState([])
 
   const buttons: Button[] = [
     {
@@ -32,7 +33,9 @@ function Front() {
         <div className="flex flex-col h-[calc(100vh-4vh)] col-span-9  p-4 bg-white shadow-md rounded-xl">
           <h2 className="mt-2 text-4xl font-bold">รายการสินค้า</h2>
           <div className="flex-1 mt-4 overflow-auto">
-            <Item isEven={false} />
+            {items.map((item, index) => (
+              <Item key={index} isEven={index % 2 === 0} />
+            ))}
           </div>
 
           <div className="flex items-start justify-between gap-2 mb-2 border-t-2">

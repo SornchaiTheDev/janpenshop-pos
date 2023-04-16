@@ -61,8 +61,12 @@ function Stock() {
       ),
     },
     {
-      Header: 'ราคาขาย',
-      accessor: 'price',
+      Header: 'ราคาขายปลีก (ต่อชิ้น)',
+      accessor: 'retailPrice',
+    },
+    {
+      Header: 'ราคาขายส่ง (ต่อชิ้น)',
+      accessor: 'wholesalePrice',
     },
     {
       Header: 'แก้ไข/ลบ',
