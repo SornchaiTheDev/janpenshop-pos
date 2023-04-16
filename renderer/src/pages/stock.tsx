@@ -14,12 +14,14 @@ import RemoveItem from '@/components/RemoveItem'
 import { useState } from 'react'
 import EditItem from '@/components/EditItem'
 import { Stocks } from '@/interface/Stocks'
+import Input from '@/components/Inputs/Simple'
 interface Props {
   data: Data[]
 }
 
 function Stock() {
   const [menus, setMenus] = useRecoilState(menusState)
+  const [search, setSearch] = useState<string>('')
   const [selectedItem, setSelectedItem] = useState<Stocks | null>(null)
 
   const stockData = trpc.stock.getItem.useQuery()
@@ -93,6 +95,14 @@ function Stock() {
     },
   ]
 
+  const filterData = (data: Stocks[]) => {
+    if (!search) return data
+    return data.filter((item) => {
+      const regex = new RegExp(search, 'gi')
+      return item.name.match(regex) || item.barcode.match(regex)
+    })
+  }
+
   const handleSelectItem = (item: Stocks & { type: string }) => {
     setSelectedItem(item)
     if (item.type === 'edit')
@@ -114,10 +124,15 @@ function Stock() {
       )}
       {menus.isAddToStockModalOpen && <AddItem onConfirm={refetch} />}
       <Sidebar title="จัดการสินค้า">
+        <Input
+          value={search}
+          placeholder="ค้นหาสินค้า"
+          onChange={(value) => setSearch(value)}
+        />
         <Table
           columns={columns}
           pageSize={16}
-          data={stockData.data ? stockData.data : []}
+          data={stockData.data ? filterData(stockData.data) : []}
           actions={actions}
         />
       </Sidebar>
