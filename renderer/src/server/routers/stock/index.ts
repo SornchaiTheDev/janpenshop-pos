@@ -50,7 +50,17 @@ export const stockRouter = router({
     const deleted = await prisma.stocks.deleteMany()
     console.log(deleted)
   }),
-  getItem: protectedProcedure.query(() => {
+  getItem: protectedProcedure
+    .input(z.object({ barcode: z.string() }))
+    .query(async ({ input }) => {
+      const item = await prisma.stocks.findUnique({
+        where: {
+          barcode: input.barcode,
+        },
+      })
+      return item
+    }),
+  getAllItems: protectedProcedure.query(() => {
     return prisma.stocks.findMany({
       include: { tags: true },
       orderBy: { name: 'asc' },

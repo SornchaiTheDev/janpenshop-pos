@@ -24,7 +24,7 @@ function Stock() {
   const [search, setSearch] = useState<string>('')
   const [selectedItem, setSelectedItem] = useState<Stocks | null>(null)
 
-  const stockData = trpc.stock.getItem.useQuery()
+  const stockData = trpc.stock.getAllItems.useQuery()
 
   const actions: Action[] = [
     {
