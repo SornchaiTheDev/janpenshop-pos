@@ -14,6 +14,7 @@ import { FiTrash2 } from 'react-icons/fi'
 import { TbDiscount } from 'react-icons/tb'
 import { sellStore, sellStatsState } from '@/store/sellStore'
 import PayWithCash from '@/components/PayWithCash'
+import PayWithQRCode from '@/components/PayWithQR'
 
 const BarcodeReader = dynamic(
   () => import('@/components/Common/barcodeReader'),
@@ -53,7 +54,12 @@ function Front() {
       onClick: () =>
         setMenuState((prev) => ({ ...prev, isPayWithCashModalOpen: true })),
     },
-    { name: 'คิวอาร์โค้ด', icon: <BsQrCode size="4rem" />, onClick: () => {} },
+    {
+      name: 'คิวอาร์โค้ด',
+      icon: <BsQrCode size="4rem" />,
+      onClick: () =>
+        setMenuState((prev) => ({ ...prev, isPayWithQRCodeOpen: true })),
+    },
   ]
 
   const handleOnScan = (item: Stocks) => {
@@ -113,6 +119,8 @@ function Front() {
       )}
 
       {menuState.isPayWithCashModalOpen && <PayWithCash />}
+
+      {menuState.isPayWithQRCodeOpen && <PayWithQRCode />}
       <div className="grid h-screen grid-cols-12 p-4 px-16 gap-14 bg-neutral-100">
         <div className="flex flex-col h-[calc(100vh-4vh)] col-span-9  p-4 bg-white shadow-md rounded-xl">
           <div className="flex items-center justify-between">
