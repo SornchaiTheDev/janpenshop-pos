@@ -12,6 +12,7 @@ interface Props {
   onBlur?: () => void
   className?: string
   disabled?: boolean
+  autofocus?: boolean
 }
 
 function Input({
@@ -24,6 +25,7 @@ function Input({
   onBlur,
   className,
   disabled = false,
+  autofocus,
 }: Props) {
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
@@ -34,6 +36,7 @@ function Input({
     <div className={className ? className : undefined}>
       <label className="text-neutral-700">{placeholder}</label>
       <input
+        autoFocus={autofocus}
         disabled={disabled}
         onFocus={onFocus}
         onBlur={onBlur}

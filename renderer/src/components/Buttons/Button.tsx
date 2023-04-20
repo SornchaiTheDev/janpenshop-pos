@@ -3,10 +3,11 @@ import clsx from 'clsx'
 interface Props {
   title: string
   type: 'info' | 'success' | 'warning' | 'error'
-  onClick: () => void
+  onClick?: () => void
+  className?: string
 }
 
-function Button({ title, type, onClick }: Props) {
+function Button({ title, type, onClick, className }: Props) {
   return (
     <button
       type="submit"
@@ -20,7 +21,8 @@ function Button({ title, type, onClick }: Props) {
         type === 'warning' &&
           'text-yellow-500 bg-yellow-200  ring-yellow-400 hover:bg-yellow-300 hover:text-yellow-700',
         type === 'error' &&
-          'text-red-500 bg-red-200 ring-red-400 hover:bg-red-300 hover:text-red-700'
+          'text-red-500 bg-red-200 ring-red-400 hover:bg-red-300 hover:text-red-700',
+        className
       )}
     >
       {title}

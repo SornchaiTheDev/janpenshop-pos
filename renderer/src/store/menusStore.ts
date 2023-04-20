@@ -7,5 +7,6 @@ export const menusState = atom({
     isAddToStockModalOpen: false,
     isEditStockModalOpen: false,
     isAlertModalOpen: false,
+    isDiscountModalOpen: false,
   },
 })
