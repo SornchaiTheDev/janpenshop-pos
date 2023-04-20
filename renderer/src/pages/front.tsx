@@ -1,5 +1,5 @@
 import Item from 'renderer/src/components/Front/Item'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState, useRef, useEffect } from 'react'
 import { BiLockAlt } from 'react-icons/bi'
 import { BsCashCoin, BsQrCode } from 'react-icons/bs'
 import Login from 'renderer/src/components/Login'
@@ -8,6 +8,9 @@ import { useRecoilState } from 'recoil'
 import dynamic from 'next/dynamic'
 import { Stocks } from '@prisma/client'
 import { convertToThousand } from '@/utils'
+import ToggleSwitch from '@/components/ToggleSwitch'
+import { FiTrash2 } from 'react-icons/fi'
+import { trpc } from '@/utils/trpc'
 
 const BarcodeReader = dynamic(
   () => import('@/components/Common/barcodeReader'),
@@ -20,12 +23,22 @@ interface Button {
 }
 
 type Item = Stocks & { amount: number }
+
 function Front() {
+  const sellWindow = useRef<HTMLDivElement>(null)
   const [menuState, setMenuState] = useRecoilState(menusState)
   const [items, setItems] = useState<Item[]>([])
+  const [sellMode, setSellMode] = useState<'retail' | 'wholesale'>('retail')
 
+  const getPrice = (item: Item) => {
+    if (sellMode === 'retail') {
+      return item.retailPrice
+    } else {
+      return item.wholesalePrice
+    }
+  }
   const totalPrice = items.reduce(
-    (acc, item) => acc + item.amount * item.retailPrice,
+    (acc, item) => acc + item.amount * getPrice(item),
     0
   )
   const discount = 0
@@ -55,19 +68,47 @@ function Front() {
     }
   }
 
+  const handleOnRemove = (barcode: string) => {
+    setItems((prev) => prev.filter((i) => i.barcode !== barcode))
+  }
+
+  useEffect(() => {
+    if (sellWindow.current) {
+      sellWindow.current.scrollTo({
+        top: sellWindow.current?.scrollHeight,
+      })
+    }
+  }, [sellWindow, items])
+
   return (
     <>
       <BarcodeReader onComplete={handleOnScan} />
       {menuState.isLoginModalOpen && <Login />}
       <div className="grid h-screen grid-cols-12 p-4 px-16 gap-14 bg-neutral-100">
         <div className="flex flex-col h-[calc(100vh-4vh)] col-span-9  p-4 bg-white shadow-md rounded-xl">
-          <h2 className="mt-2 text-4xl font-bold">รายการสินค้า</h2>
-          <div className="flex-1 mt-4 overflow-auto">
-            {items.map(({ name, retailPrice, amount }, index) => (
+          <div className="flex items-center justify-between">
+            <ToggleSwitch
+              buttons={[
+                { name: 'ราคาปลีก', onClick: () => setSellMode('retail') },
+                { name: 'ราคาส่ง', onClick: () => setSellMode('wholesale') },
+              ]}
+            />
+            <button
+              className="flex items-center gap-4 p-2 text-red-700 bg-red-200 rounded-lg hover:bg-red-300 hover:text-red-800"
+              onClick={() => setItems([])}
+            >
+              ยกเลิกการขาย
+              <FiTrash2 />
+            </button>
+          </div>
+          <h2 className="mt-4 text-4xl font-bold">รายการสินค้า</h2>
+          <div className="flex-1 pr-4 mt-4 overflow-auto" ref={sellWindow}>
+            {items.map((item, index) => (
               <Item
-                amount={amount}
-                name={name}
-                price={retailPrice}
+                onRemove={() => handleOnRemove(item.barcode)}
+                amount={item.amount}
+                name={item.name}
+                price={getPrice(item)}
                 key={index}
                 isEven={index % 2 === 0}
               />

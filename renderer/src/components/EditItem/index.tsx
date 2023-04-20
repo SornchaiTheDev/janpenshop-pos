@@ -17,7 +17,6 @@ function EditItem({ item, onConfirm }: Props) {
   const setMenus = useSetRecoilState(menusState)
   const formRef = useRef<HTMLDivElement>(null)
 
-  const [barcode, setBarcode] = useState<string>(item.barcode)
   const [name, setName] = useState<string>(item.name)
   const [retailPrice, setRetailPrice] = useState<string>(
     item.retailPrice.toString()
@@ -36,6 +35,7 @@ function EditItem({ item, onConfirm }: Props) {
   useOnClickOutside(formRef, onClose)
 
   const handleEditItem = async () => {
+    const barcode = item.barcode
     try {
       const item = {
         barcode,
@@ -73,7 +73,7 @@ function EditItem({ item, onConfirm }: Props) {
           <p className="mt-2 font-light text-red-500">*เกิดข้อผิดพลาด</p>
         )}
         <div className="flex flex-col gap-2 mt-2">
-          <Input placeholder="บาร์โค้ด" value={barcode} onChange={setBarcode} />
+          <Input placeholder="บาร์โค้ด" disabled value={item.barcode} />
           <Input placeholder="ชื่อสินค้า" value={name} onChange={setName} />
           <div className="flex flex-wrap gap-2 mt-4">
             <Input

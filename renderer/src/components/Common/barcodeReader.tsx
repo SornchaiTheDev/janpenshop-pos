@@ -7,21 +7,17 @@ interface Props {
   onComplete: (item: Stocks) => void
 }
 function barcodeReader({ onComplete }: Props) {
-  // TODO
-  const [barcode, setBarcode] = useState<String>('')
-  const handleOnComplete = (code: String) => {
-    setBarcode(code)
+  const utils = trpc.useContext()
+
+  const handleOnComplete = async (code: String) => {
+    const data = await utils.stock.getItem.fetch({ barcode: code.toString() })
     if (data) {
+      console.log(data)
       onComplete(data)
     }
   }
 
   useScanDetection({ onComplete: handleOnComplete })
-  const { data, refetch } = trpc.stock.getItem.useQuery(
-    { barcode: barcode.toString() },
-    { enabled: false }
-  )
-
   return null
 }
 

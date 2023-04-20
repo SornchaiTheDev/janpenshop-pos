@@ -70,6 +70,7 @@ export const stockRouter = router({
     .input(
       z.object({
         barcode: z.string(),
+        changedBarcode: z.string().optional(),
         name: z.string(),
         retailPrice: z.number(),
         wholeSalePrice: z.number(),
@@ -92,9 +93,11 @@ export const stockRouter = router({
         (tag) => tag != null
       )
 
+      const barcode = input.changedBarcode || input.barcode
+
       const item = await prisma.stocks.update({
         where: {
-          barcode: input.barcode,
+          barcode,
         },
         data: {
           name: input.name,

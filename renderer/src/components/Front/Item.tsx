@@ -1,4 +1,3 @@
-import React from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import clsx from 'clsx'
 import { convertToThousand } from '@/utils'
@@ -8,9 +7,10 @@ interface Props {
   amount: number
   price: number
   isEven: boolean
+  onRemove: () => void
 }
 
-function Item({ name, amount, price, isEven }: Props) {
+const Item = ({ name, amount, price, isEven, onRemove }: Props) => {
   return (
     <div
       className={clsx(
@@ -27,7 +27,7 @@ function Item({ name, amount, price, isEven }: Props) {
         <h3>
           {convertToThousand(price * amount)} <span className="ml-2">บาท</span>
         </h3>
-        <button onClick={() => {}}>
+        <button onClick={onRemove}>
           <FiTrash2 />
         </button>
       </div>

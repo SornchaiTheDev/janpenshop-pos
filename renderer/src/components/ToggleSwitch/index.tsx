@@ -1,22 +1,39 @@
-import { useState } from "react";
-import Switch from "./Switch";
+import { useState } from 'react'
+import Switch from './Switch'
 
-function ToggleSwitch() {
-  const [active, setActive] = useState<"instock" | "frontstore">("instock");
-  return (
-    <div className="flex items-center w-[200px] gap-2 p-2 rounded-full bg-zinc-100">
-      <Switch
-        title="ในสต็อก"
-        active={active === "instock"}
-        onClick={() => setActive("instock")}
-      />
-      <Switch
-        title="หน้าร้าน"
-        active={active === "frontstore"}
-        onClick={() => setActive("frontstore")}
-      />
-    </div>
-  );
+export type ToggleSwitchProps = {
+  name: string
+  onClick: () => void
+}
+interface Props {
+  buttons: ToggleSwitchProps[]
 }
 
-export default ToggleSwitch;
+type ButtonName = ToggleSwitchProps['name']
+
+function ToggleSwitch({ buttons }: Props) {
+  const [active, setActive] = useState<ButtonName>(buttons[0].name)
+
+  const handleOnClick = (name: ButtonName) => {
+    const button = buttons.find((button) => button.name === name)
+    if (button) {
+      setActive(name)
+      button.onClick()
+    }
+  }
+
+  return (
+    <div className="flex items-center w-[200px] gap-2 p-2 rounded-full bg-zinc-100">
+      {buttons.map(({ name }) => (
+        <Switch
+          key={name}
+          title={name}
+          active={active === name}
+          onClick={() => handleOnClick(name)}
+        />
+      ))}
+    </div>
+  )
+}
+
+export default ToggleSwitch
