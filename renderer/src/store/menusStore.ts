@@ -8,5 +8,7 @@ export const menusState = atom({
     isEditStockModalOpen: false,
     isAlertModalOpen: false,
     isDiscountModalOpen: false,
+    isPayWithCashModalOpen: false,
+    isPayWithQRCodeOpen: false,
   },
 })

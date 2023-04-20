@@ -1,5 +1,5 @@
 import Item from 'renderer/src/components/Front/Item'
-import { ReactNode, useState, useRef, useEffect } from 'react'
+import { ReactNode, useRef, useEffect } from 'react'
 import { BiLockAlt } from 'react-icons/bi'
 import { BsCashCoin, BsQrCode } from 'react-icons/bs'
 import Login from 'renderer/src/components/Login'
@@ -13,6 +13,7 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 import { FiTrash2 } from 'react-icons/fi'
 import { TbDiscount } from 'react-icons/tb'
 import { sellStore, sellStatsState } from '@/store/sellStore'
+import PayWithCash from '@/components/PayWithCash'
 
 const BarcodeReader = dynamic(
   () => import('@/components/Common/barcodeReader'),
@@ -46,7 +47,12 @@ function Front() {
       onClick: () =>
         setMenuState((prev) => ({ ...prev, isDiscountModalOpen: true })),
     },
-    { name: 'เงินสด', icon: <BsCashCoin size="4rem" />, onClick: () => {} },
+    {
+      name: 'เงินสด',
+      icon: <BsCashCoin size="4rem" />,
+      onClick: () =>
+        setMenuState((prev) => ({ ...prev, isPayWithCashModalOpen: true })),
+    },
     { name: 'คิวอาร์โค้ด', icon: <BsQrCode size="4rem" />, onClick: () => {} },
   ]
 
@@ -105,6 +111,8 @@ function Front() {
           }
         />
       )}
+
+      {menuState.isPayWithCashModalOpen && <PayWithCash />}
       <div className="grid h-screen grid-cols-12 p-4 px-16 gap-14 bg-neutral-100">
         <div className="flex flex-col h-[calc(100vh-4vh)] col-span-9  p-4 bg-white shadow-md rounded-xl">
           <div className="flex items-center justify-between">
