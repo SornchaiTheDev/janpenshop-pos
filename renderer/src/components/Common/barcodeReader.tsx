@@ -1,6 +1,5 @@
 import { trpc } from '@/utils/trpc'
 import { Stocks } from '@prisma/client'
-import { useState, useEffect } from 'react'
 import useScanDetection from 'use-scan-detection'
 
 interface Props {
@@ -12,7 +11,6 @@ function barcodeReader({ onComplete }: Props) {
   const handleOnComplete = async (code: String) => {
     const data = await utils.stock.getItem.fetch({ barcode: code.toString() })
     if (data) {
-      console.log(data)
       onComplete(data)
     }
   }

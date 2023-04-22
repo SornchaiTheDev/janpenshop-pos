@@ -6,6 +6,7 @@ import { RiSettings4Line } from 'react-icons/ri'
 import { TbDoorExit } from 'react-icons/tb'
 import clsx from 'clsx'
 import Head from 'next/head'
+import { AiOutlineHistory } from 'react-icons/ai'
 
 interface Props {
   children: ReactNode
@@ -14,14 +15,14 @@ interface Props {
 
 const navigation = [
   {
-    name: 'หน้าหลัก',
-    icon: <BiHome size="100%" />,
-    path: '/dashboard',
-  },
-  {
     name: 'จัดการสินค้า',
     icon: <BsHandbag size="100%" />,
     path: '/stock',
+  },
+  {
+    name: 'ประวัติการขาย',
+    icon: <AiOutlineHistory size="100%" />,
+    path: '/history',
   },
   {
     name: 'ตั้งค่า',

@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import { router, procedure } from '../trpc'
-import { authRouter } from '../routers/auth'
-import { stockRouter } from '../routers/stock'
-import { tagsRouter } from '../routers/tags'
+import { authRouter } from './auth'
+import { stockRouter } from './stock'
+import { tagsRouter } from './tags'
+import { historyRouter } from './history'
 
 export const appRouter = router({
   hello: procedure
@@ -21,6 +22,7 @@ export const appRouter = router({
   auth: authRouter,
   stock: stockRouter,
   tags: tagsRouter,
+  history: historyRouter,
 })
 
 export type AppRouter = typeof appRouter

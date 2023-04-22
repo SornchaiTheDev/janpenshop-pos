@@ -9,10 +9,10 @@ import { Prisma } from '@prisma/client'
 type Stocks = Prisma.StocksGetPayload<{ include: { tags: true } }>
 
 interface Props {
-  data: Stocks[]
+  data: any[]
   pageSize: number
   title?: string
-  columns: Column<Stocks>[]
+  columns: Column<any>[]
   actions?: Action[]
 }
 

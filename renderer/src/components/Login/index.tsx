@@ -31,7 +31,7 @@ function Login() {
       const { isAuthed } = await mutation.mutateAsync({ username, password })
 
       if (isAuthed) {
-        router.replace('/dashboard')
+        router.replace('/stock')
         setMenuState((prev) => ({ ...prev, isLoginModalOpen: false }))
       }
     } catch (err) {

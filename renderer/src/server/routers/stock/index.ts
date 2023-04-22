@@ -60,8 +60,8 @@ export const stockRouter = router({
       })
       return item
     }),
-  getAllItems: protectedProcedure.query(() => {
-    return prisma.stocks.findMany({
+  getAllItems: protectedProcedure.query(async () => {
+    return await prisma.stocks.findMany({
       include: { tags: true },
       orderBy: { name: 'asc' },
     })

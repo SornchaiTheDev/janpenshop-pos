@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react'
-import { useSetRecoilState } from 'recoil'
-import { sellStore } from '@/store/sellStore'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
+import { sellStore, sellStatsState } from '@/store/sellStore'
 import Input from '../Inputs/Simple'
 import Button from '../Buttons/Button'
 
@@ -10,12 +10,18 @@ interface Props {
 }
 
 function Pay({ goToStepChange, onCancel }: Props) {
+  const { totalPrice } = useRecoilValue(sellStatsState)
   const setSellStore = useSetRecoilState(sellStore)
   const [money, setMoney] = useState<string>('')
 
   const handleOnDiscount = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setSellStore((prev) => ({ ...prev, money: parseInt(money) }))
+    let _money = parseInt(money)
+    if (isNaN(_money)) {
+      _money = 0
+    }
+    if (_money < totalPrice) return
+    setSellStore((prev) => ({ ...prev, money: _money }))
     goToStepChange()
   }
 

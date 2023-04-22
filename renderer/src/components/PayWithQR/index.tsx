@@ -8,19 +8,38 @@ import { QRCodeSVG } from 'qrcode.react'
 import generatePayload from 'promptpay-qr'
 import { convertToThousand } from '@/utils/convertToThousand'
 import Image from 'next/image'
+import { trpc } from '@/utils/trpc'
 
 function PayWithQRCode() {
   const modalRef = useRef<HTMLDivElement>(null)
   const setMenus = useSetRecoilState(menusState)
   const setSellStore = useSetRecoilState(sellStore)
-  const { totalPrice } = useRecoilValue(sellStatsState)
+  const { totalPrice, items, discount } = useRecoilValue(sellStatsState)
+  const addHistory = trpc.history.addHistory.useMutation()
+
   const PROMPT_PAY_ACC = '0817637549'
 
   const onClose = () => {
     setMenus((prev) => ({ ...prev, isPayWithQRCodeOpen: false }))
   }
 
-  const onSuccess = () => {
+  const onSuccess = async () => {
+    try {
+      const historyData = items.map(({ name, barcode, price, amount }) => ({
+        name,
+        barcode,
+        price,
+        amount,
+      }))
+
+      await addHistory.mutateAsync({
+        billId: Date.now().toString(),
+        items: historyData,
+        totalPrice,
+        discount,
+      })
+    } catch (e) {}
+
     setSellStore({
       _items: [],
       discount: 0,

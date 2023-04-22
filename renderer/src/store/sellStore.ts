@@ -49,6 +49,7 @@ export const sellStatsState = selector({
     return {
       items,
       discount,
+      price,
       totalPrice,
       itemAmount,
       change,

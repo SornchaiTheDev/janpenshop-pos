@@ -32,7 +32,7 @@ function Front() {
   const sellWindow = useRef<HTMLDivElement>(null)
   const [menuState, setMenuState] = useRecoilState(menusState)
   const setSellStore = useSetRecoilState(sellStore)
-  const { items, totalPrice, itemAmount, discount } =
+  const { items, totalPrice, itemAmount, discount , price } =
     useRecoilValue(sellStatsState)
 
   const buttons: Button[] = [
@@ -93,7 +93,7 @@ function Front() {
   }
 
   const clearItems = () => {
-    setSellStore((prev) => ({ ...prev, items: [] }))
+    setSellStore((prev) => ({ ...prev, _items: [] }))
   }
 
   useEffect(() => {
@@ -165,7 +165,7 @@ function Front() {
               <div className="flex items-center justify-between">
                 <h6>ราคารวม</h6>
                 <h5 className="font-bold text-sky-500">
-                  {convertToThousand(totalPrice)}{' '}
+                  {convertToThousand(price)}{' '}
                   <span className="ml-2 font-normal text-black">บาท</span>
                 </h5>
               </div>

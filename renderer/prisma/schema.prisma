@@ -29,3 +29,22 @@ model Tag {
   name   String   @unique
   stocks Stocks[]
 }
+
+model HistoryItem {
+  id      String    @id @default(uuid())
+  name    String    @default("")
+  barcode String
+  amount  Int
+  price   Float
+  history History[]
+}
+
+model History {
+  id         String        @id @default(uuid())
+  billId     String        @unique
+  price      Float         @default(0)
+  totalPrice Float         @default(0)
+  discount   Float         @default(0)
+  items      HistoryItem[]
+  date       DateTime      @default(now())
+}
