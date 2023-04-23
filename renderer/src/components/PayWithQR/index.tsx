@@ -9,6 +9,7 @@ import generatePayload from 'promptpay-qr'
 import { convertToThousand } from '@/utils/convertToThousand'
 import Image from 'next/image'
 import { trpc } from '@/utils/trpc'
+import { useLocalStorage } from 'usehooks-ts'
 
 function PayWithQRCode() {
   const modalRef = useRef<HTMLDivElement>(null)
@@ -17,7 +18,10 @@ function PayWithQRCode() {
   const { totalPrice, items, discount } = useRecoilValue(sellStatsState)
   const addHistory = trpc.history.addHistory.useMutation()
 
-  const PROMPT_PAY_ACC = '0817637549'
+  const [promptPay, setPromptPay] = useLocalStorage<{
+    name: string
+    phoneNumber: string
+  }>('promptPay', { name: '', phoneNumber: '' })
 
   const onClose = () => {
     setMenus((prev) => ({ ...prev, isPayWithQRCodeOpen: false }))
@@ -60,7 +64,7 @@ function PayWithQRCode() {
         <QRCodeSVG
           className="w-full"
           height={300}
-          value={generatePayload(PROMPT_PAY_ACC, { amount: totalPrice })}
+          value={generatePayload(promptPay.phoneNumber, { amount: totalPrice })}
         />
         <div>
           <h5 className="text-center">
@@ -71,7 +75,8 @@ function PayWithQRCode() {
             บาท
           </h5>
           <h5 className="text-center">
-            ชื่อบัญชี : <span className="text-xl font-bold">ศรชัย สมสกุล</span>
+            ชื่อบัญชี :{' '}
+            <span className="text-xl font-bold">{promptPay.name}</span>
           </h5>
         </div>
         <div className="flex gap-2">

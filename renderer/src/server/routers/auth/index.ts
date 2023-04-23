@@ -1,12 +1,16 @@
-import { router, procedure } from '../../trpc'
+import { router, procedure, protectedProcedure } from '../../trpc'
 import { z } from 'zod'
 import { prisma } from '@/server/prisma'
 import bcrypt from 'bcrypt'
 
 export const authRouter = router({
-  create: procedure
+  getUser: protectedProcedure.query(async () => {
+    return await prisma.users.findFirst()
+  }),
+  change: procedure
     .input(z.object({ username: z.string(), password: z.string() }))
     .mutation(async ({ input }) => {
+      await prisma.users.deleteMany()
       const user = await prisma.users.create({
         data: {
           username: input.username,
